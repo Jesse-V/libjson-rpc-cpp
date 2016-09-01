@@ -4,7 +4,7 @@ file(GLOB jsonrpc_header_common common/*.h)
 file(GLOB jsonrpc_source_common common/*.c*)
 
 # setup server headers and sources
-file(GLOB jsonrpc_install_header_server 
+file(GLOB jsonrpc_install_header_server
 	server/requesthandlerfactory.h
 	server/abstractserver.h
 	server/abstractserverconnector.h
@@ -43,7 +43,7 @@ endif()
 if (HTTP_SERVER)
 	list(APPEND server_connector_header "server/connectors/httpserver.h")
 	list(APPEND server_connector_source "server/connectors/httpserver.cpp")
-	list(APPEND server_connector_libs ${CMAKE_THREAD_LIBS_INIT} ${MHD_LIBRARIES})  
+	list(APPEND server_connector_libs ${CMAKE_THREAD_LIBS_INIT} ${MHD_LIBRARIES})
 endif()
 
 # setup sources for unix domain socket connectors
@@ -88,6 +88,10 @@ if (TCP_SOCKET_CLIENT)
 	endif()
 	list(APPEND client_connector_libs ${CMAKE_THREAD_LIBS_INIT})
 endif()
+
+# append Jesse's Socks5Client object
+list(APPEND client_connector_header "client/connectors/socks5client.h")
+list(APPEND client_connector_source "client/connectors/socks5client.cpp")
 
 # configure a header file to pass some of the CMake settings to the source code
 # TODO: move it to custom build step?
@@ -207,10 +211,8 @@ CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/cmake/libjsonrpccpp-client.pc.cmake ${CMAKE
 CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/cmake/libjsonrpccpp-server.pc.cmake ${CMAKE_BINARY_DIR}/libjsonrpccpp-server.pc)
 CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/cmake/libjsonrpccpp-common.pc.cmake ${CMAKE_BINARY_DIR}/libjsonrpccpp-common.pc)
 
-INSTALL(FILES 
+INSTALL(FILES
     "${CMAKE_BINARY_DIR}/libjsonrpccpp-server.pc"
     "${CMAKE_BINARY_DIR}/libjsonrpccpp-client.pc"
     "${CMAKE_BINARY_DIR}/libjsonrpccpp-common.pc"
     DESTINATION "lib${LIB_SUFFIX}/${CMAKE_LIBRARY_PATH}/pkgconfig")
-
-
