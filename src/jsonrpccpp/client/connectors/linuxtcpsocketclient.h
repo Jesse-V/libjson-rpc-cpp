@@ -41,7 +41,7 @@ namespace jsonrpc
 			 */
 			virtual void SendRPCMessage(const std::string& message, std::string& result) throw (JsonRpcException);
 
-		private:
+		protected:
 			std::string hostToConnect;    /*!< The hostname or the ipv4 address on which the client should try to connect*/
 			unsigned int port;          /*!< The port on which the client should try to connect*/
 			/**
